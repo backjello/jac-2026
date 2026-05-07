@@ -5,8 +5,13 @@ export default class UsersController {
   /**
    * Display a list of resource
    */
-  async index({ }: HttpContext) {
-    return await User.all()
+  async index({ request }: HttpContext) {
+    // request.input('page')
+    const qs = request.qs() // {"page":1, "limit":20}
+    const page = qs.page
+    const limit = qs.limit
+    console.log(page, limit)
+    return await User.query().paginate(page, limit)
   }
 
   /**
